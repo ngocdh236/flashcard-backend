@@ -1,3 +1,2 @@
-node_modules
-config/keys_dev.js
-package-lock.json
+node_modules/
+src/config/keys_dev.js
