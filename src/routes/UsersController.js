@@ -1,17 +1,10 @@
-import express from 'express'
-const router = express.Router()
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import passport from 'passport'
 
 import keys from '../config/keys'
 import User from '../models/User'
 import validateRegisterInput from '../validators/register'
 import validateLoginInput from '../validators/login'
-
-// @route   POST api/users/register
-// @desc    Register user
-// @access  Public
 
 class UsersController {
   register(req, res) {
@@ -82,9 +75,5 @@ class UsersController {
     })
   }
 }
-
-// @route   POST api/users/login
-// @desc    Login user
-// @access  Public
 
 export default new UsersController()

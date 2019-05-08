@@ -1,8 +1,8 @@
-const validator = require('validator')
+import validator from 'validator'
 
-const isEmpty = require('./isEmpty')
+import isEmpty from './isEmpty'
 
-module.exports = function validateRegisterInput(data) {
+export default function validateRegisterInput(data) {
   let errors = {}
 
   const name = !isEmpty(data.name) ? data.name : ''

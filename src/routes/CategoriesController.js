@@ -1,7 +1,3 @@
-import express from 'express'
-const router = express.Router()
-import passport from 'passport'
-
 import Category from '../models/Category'
 import validateCategoryInput from '../validators/category'
 

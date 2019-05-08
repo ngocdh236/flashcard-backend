@@ -1,8 +1,8 @@
-const validator = require('validator')
+import validator from 'validator'
 
-const isEmpty = require('./isEmpty')
+import isEmpty from './isEmpty'
 
-module.exports = function validateCollectionInput(data) {
+export default function validateCollectionInput(data) {
   let errors = {}
 
   const name = !isEmpty(data.name) ? data.name : ''
