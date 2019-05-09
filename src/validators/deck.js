@@ -2,7 +2,7 @@ import validator from 'validator'
 
 import isEmpty from './isEmpty'
 
-export default function validateCollectionInput(data) {
+export default function validateDeckInput(data) {
   let errors = {}
 
   const name = !isEmpty(data.name) ? data.name : ''

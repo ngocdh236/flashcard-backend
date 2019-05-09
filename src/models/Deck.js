@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
 
-const CollectionSchema = Schema({
+const DeckSchema = Schema({
   name: {
     type: String,
     required: true
@@ -17,4 +17,4 @@ const CollectionSchema = Schema({
   }
 })
 
-export default mongoose.model('collections', CollectionSchema)
+export default mongoose.model('decks', DeckSchema)

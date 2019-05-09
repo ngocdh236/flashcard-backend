@@ -11,9 +11,9 @@ const CardSchema = Schema({
     type: String,
     required: true
   },
-  collectionId: {
+  deckId: {
     type: Schema.Types.ObjectId,
-    ref: 'collections'
+    ref: 'decks'
   },
   userId: {
     type: Schema.Types.ObjectId,

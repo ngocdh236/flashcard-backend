@@ -3,7 +3,7 @@ import passport from 'passport'
 
 import usersController from './UsersController'
 import categoriesController from './CategoriesController'
-import collectionsController from './CollectionsController'
+import decksController from './DecksController'
 
 const router = express.Router()
 
@@ -37,28 +37,28 @@ router.delete(
   categoriesController.delete
 )
 
-// COLLECTIONS
-const collectionsUrl = '/collections'
+// DECKS
+const decksUrl = '/decks'
 
 router.get(
-  `${collectionsUrl}/`,
+  `${decksUrl}/`,
   passport.authenticate('jwt', { session: false }),
-  collectionsController.getAll
+  decksController.getAll
 )
 router.post(
-  `${collectionsUrl}/`,
+  `${decksUrl}/`,
   passport.authenticate('jwt', { session: false }),
-  collectionsController.create
+  decksController.create
 )
 router.put(
-  `${collectionsUrl}/:id`,
+  `${decksUrl}/:id`,
   passport.authenticate('jwt', { session: false }),
-  collectionsController.update
+  decksController.update
 )
 router.delete(
-  `${collectionsUrl}/:id`,
+  `${decksUrl}/:id`,
   passport.authenticate('jwt', { session: false }),
-  collectionsController.delete
+  decksController.delete
 )
 
 export default router
