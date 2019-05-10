@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
 
-const CardSchema = Schema({
+const CardSchema = new Schema({
   key: {
     type: String,
     required: true

@@ -1,4 +1,5 @@
 import Category from '../models/Category'
+import Deck from '../models/Deck'
 import validateCategoryInput from '../validators/category'
 
 class CategoriesController {
@@ -16,7 +17,8 @@ class CategoriesController {
     }
 
     Category.findOne({
-      name: req.body.name
+      name: req.body.name,
+      userId: req.user.id
     }).then(category => {
       if (category) {
         errors.name = 'Category already exists'
@@ -51,7 +53,16 @@ class CategoriesController {
 
   delete(req, res) {
     Category.findByIdAndDelete(req.params.id)
-      .then(response => res.json({ success: true }))
+      .then(category =>
+        Deck.updateMany({ categoryId: category.id }, { categoryId: null })
+          .then(response => res.json({ success: true }))
+          .catch(err =>
+            res.json({
+              success: true,
+              decksRemovingRefErrors: err
+            })
+          )
+      )
       .catch(err => res.json(err))
   }
 }

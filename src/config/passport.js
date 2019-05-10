@@ -5,12 +5,12 @@ import passport from 'passport'
 import keys from './keys'
 import User from '../models/User'
 
-const opts = {}
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
-opts.secretOrKey = keys.secretOrKey
+const options = {}
+options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
+options.secretOrKey = keys.secretOrKey
 
 passport.use(
-  new Strategy(opts, (jwt_payload, done) => {
+  new Strategy(options, (jwt_payload, done) => {
     User.findById(jwt_payload.id)
       .then(user => {
         if (user) {
@@ -22,6 +22,4 @@ passport.use(
   })
 )
 
-const appPassport = passport.initialize()
-
-export default appPassport
+export default passport.initialize()

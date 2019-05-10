@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken'
 
 import keys from '../config/keys'
 import User from '../models/User'
+import Category from '../models/Category'
+import Deck from '../models/Deck'
+import Card from '../models/Card'
 import validateRegisterInput from '../validators/register'
 import validateLoginInput from '../validators/login'
 
@@ -57,14 +60,18 @@ class UsersController {
 
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
-          const payload = { id: user.id, name: user.name }
+          const payload = { id: user.id, name: user.name, email: user.email }
 
           jwt.sign(
             payload,
             keys.secretOrKey,
             { expiresIn: 36000 },
             (err, token) => {
-              res.json({ success: true, token: 'Bearer ' + token })
+              res.json({
+                success: true,
+                token: 'Bearer ' + token,
+                user: payload
+              })
             }
           )
         } else {
@@ -73,6 +80,24 @@ class UsersController {
         }
       })
     })
+  }
+
+  delete(req, res) {
+    User.findByIdAndDelete(req.params.id)
+      .then(user => {
+        Card.deleteMany({ userId: user.id })
+          .then(response =>
+            Deck.deleteMany({ userId: user.id })
+              .then(response =>
+                Category.deleteMany({ userId: user.id })
+                  .then(response => res.json({ success: true }))
+                  .catch(err => console.log(err))
+              )
+              .catch(err => console.log(err))
+          )
+          .catch(err => console.log(err))
+      })
+      .catch(err => res.json(err))
   }
 }
 

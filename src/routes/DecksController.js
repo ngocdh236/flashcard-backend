@@ -1,4 +1,5 @@
 import Deck from '../models/Deck'
+import Card from '../models/Card'
 import validateDeckInput from '../validators/deck'
 
 class DecksController {
@@ -15,7 +16,7 @@ class DecksController {
       return res.status(400).json(errors)
     }
 
-    Deck.findOne({ name: req.body.name }).then(deck => {
+    Deck.findOne({ name: req.body.name, userId: req.user.id }).then(deck => {
       if (deck) {
         errors.name = 'Deck already exists'
         return res.status(400).json(errors)
@@ -50,7 +51,21 @@ class DecksController {
 
   delete(req, res) {
     Deck.findByIdAndDelete(req.params.id)
-      .then(response => res.json({ success: true }))
+      .then(deck => {
+        Card.deleteMany({ deckId: deck.id })
+          .then(response =>
+            res.json({
+              success: true,
+              cardsDeleted: response.deletedCount
+            })
+          )
+          .catch(err =>
+            res.json({
+              success: true,
+              cardsDeletingErrors: err
+            })
+          )
+      })
       .catch(err => res.json(err))
   }
 }
