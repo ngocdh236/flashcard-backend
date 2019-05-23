@@ -5,7 +5,7 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node_modules/.bin/nodemon src/server.js --exec babel-node --"
+    "start": "node_modules/.bin/nodemon server.js --exec babel-node --"
   },
   "author": "Doan Hong Ngoc",
   "license": "ISC",
