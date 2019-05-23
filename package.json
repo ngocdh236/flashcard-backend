@@ -5,7 +5,10 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node_modules/.bin/nodemon server.js --exec babel-node --"
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build ./src -s",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./build/server.js"
   },
   "author": "Doan Hong Ngoc",
   "license": "ISC",

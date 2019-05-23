@@ -2,9 +2,9 @@ import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 
-import keys from './src/config/keys'
-import passport from './src/config/passport'
-import router from './src/routes'
+import keys from './config/keys'
+import passport from './config/passport'
+import router from './routes'
 
 const db = keys.mongoURI
 mongoose
