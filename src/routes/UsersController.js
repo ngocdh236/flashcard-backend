@@ -91,11 +91,11 @@ class UsersController {
               .then(response =>
                 Category.deleteMany({ userId: user.id })
                   .then(response => res.json({ success: true }))
-                  .catch(err => console.log(err))
+                  .catch(err => res.json(err))
               )
-              .catch(err => console.log(err))
+              .catch(err => res.json(err))
           )
-          .catch(err => console.log(err))
+          .catch(err => res.json(err))
       })
       .catch(err => res.json(err))
   }
