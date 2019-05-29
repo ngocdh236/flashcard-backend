@@ -87,8 +87,8 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
+src/config/keys_dev.js
+build/
+
 # End of https://www.gitignore.io/api/node
 
-src/config/keys_dev.js
-
-build/
