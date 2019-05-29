@@ -5,10 +5,7 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel -d ./build ./src -s",
-    "build": "npm run clean && npm run build-babel",
-    "start": "npm run build && nodemon ./build/server.js"
+    "start": "nodemon --exec babel-node src/server.js"
   },
   "author": "Doan Hong Ngoc",
   "license": "ISC",
@@ -26,6 +23,10 @@
     "validator": "^10.11.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "nodemon": "^1.18.11"
   },
   "engines": {
