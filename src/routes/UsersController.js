@@ -69,8 +69,7 @@ class UsersController {
             (err, token) => {
               res.json({
                 success: true,
-                token: 'Bearer ' + token,
-                user: payload
+                token: 'Bearer ' + token
               })
             }
           )
