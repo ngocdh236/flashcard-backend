@@ -14,7 +14,7 @@ const usersUrl = '/users'
 router.post(`${usersUrl}/register`, usersController.register)
 router.post(`${usersUrl}/login`, usersController.login)
 router.delete(
-  `${usersUrl}/:id`,
+  usersUrl,
   passport.authenticate('jwt', { session: false }),
   usersController.delete
 )
@@ -68,25 +68,20 @@ router.delete(
 )
 
 // CARDS
-const cardsUrl = '/cards'
+const cardsUrl = '/decks/:deckId/cards'
 
 router.post(
   cardsUrl,
   passport.authenticate('jwt', { session: false }),
   cardsController.create
 )
-router.get(
-  cardsUrl,
-  passport.authenticate('jwt', { session: false }),
-  cardsController.getAll
-)
 router.put(
-  `${cardsUrl}/:id`,
+  `${cardsUrl}/:cardId`,
   passport.authenticate('jwt', { session: false }),
   cardsController.update
 )
 router.delete(
-  `${cardsUrl}/:id`,
+  `${cardsUrl}/:cardId`,
   passport.authenticate('jwt', { session: false }),
   cardsController.delete
 )

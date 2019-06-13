@@ -1,7 +1,17 @@
 import mongoose from 'mongoose'
-import Card from './Card'
 
 const Schema = mongoose.Schema
+
+const CardSchema = new Schema({
+  key: {
+    type: String,
+    required: true
+  },
+  value: {
+    type: String,
+    required: true
+  }
+})
 
 const DeckSchema = new Schema({
   name: {
@@ -15,7 +25,8 @@ const DeckSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'users'
-  }
+  },
+  cards: [CardSchema]
 })
 
 export default mongoose.model('decks', DeckSchema)

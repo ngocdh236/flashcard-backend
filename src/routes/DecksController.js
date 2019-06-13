@@ -1,5 +1,4 @@
 import Deck from '../models/Deck'
-import Card from '../models/Card'
 import validateDeckInput from '../validators/deck'
 
 class DecksController {
@@ -51,21 +50,11 @@ class DecksController {
 
   delete(req, res) {
     Deck.findByIdAndDelete(req.params.id)
-      .then(deck => {
-        Card.deleteMany({ deckId: deck.id })
-          .then(response =>
-            res.json({
-              success: true,
-              cardsDeleted: response.deletedCount
-            })
-          )
-          .catch(err =>
-            res.json({
-              success: true,
-              cardsDeletingErrors: err
-            })
-          )
-      })
+      .then(deck =>
+        res.json({
+          success: true
+        })
+      )
       .catch(err => res.json(err))
   }
 }

@@ -5,7 +5,6 @@ import keys from '../config/keys'
 import User from '../models/User'
 import Category from '../models/Category'
 import Deck from '../models/Deck'
-import Card from '../models/Card'
 import validateRegisterInput from '../validators/register'
 import validateLoginInput from '../validators/login'
 
@@ -82,20 +81,16 @@ class UsersController {
   }
 
   delete(req, res) {
-    User.findByIdAndDelete(req.params.id)
-      .then(user => {
-        Card.deleteMany({ userId: user.id })
-          .then(response =>
-            Deck.deleteMany({ userId: user.id })
-              .then(response =>
-                Category.deleteMany({ userId: user.id })
-                  .then(response => res.json({ success: true }))
-                  .catch(err => res.json(err))
-              )
+    Deck.deleteMany({ userId: req.user.id })
+      .then(
+        Category.deleteMany({ userId: req.user.id })
+          .then(res =>
+            User.findByIdAndDelete(req.user.id)
+              .then(res => res.json({ success: true }))
               .catch(err => res.json(err))
           )
           .catch(err => res.json(err))
-      })
+      )
       .catch(err => res.json(err))
   }
 }

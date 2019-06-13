@@ -1,13 +1,7 @@
-import Card from '../models/Card'
+import Deck from '../models/Deck'
 import validateCardInput from '../validators/card'
 
 class CardsController {
-  getAll(req, res) {
-    Card.find({ userId: req.user.id })
-      .then(cards => res.json(cards))
-      .catch(err => res.json(err))
-  }
-
   create(req, res) {
     const { errors, isValid } = validateCardInput(req.body)
 
@@ -15,36 +9,45 @@ class CardsController {
       return res.status(400).json(errors)
     }
 
-    const card = new Card({
-      key: req.body.key,
-      value: req.body.value,
-      deckId: req.body.deckId ? req.body.deckId : null,
-      userId: req.user.id
-    })
-    card
-      .save()
-      .then(card => res.json(card))
+    Deck.findById(req.params.deckId)
+      .then(deck => {
+        deck.cards.push(req.body)
+        deck
+          .save()
+          .then(deck => res.json(deck))
+          .catch(err => res.json(err))
+      })
       .catch(err => res.json(err))
   }
 
   update(req, res) {
     const { errors, isValid } = validateCardInput(req.body)
+
     if (!isValid) {
       return res.status(400).json(errors)
     }
 
-    Card.findByIdAndUpdate(req.params.id, req.body)
-      .then(response =>
-        Card.findById(req.params.id)
-          .then(card => res.json(card))
+    Deck.findById(req.params.deckId)
+      .then(deck => {
+        const card = deck.cards.id(req.params.cardId)
+        card.set(req.body)
+        deck
+          .save()
+          .then(deck => res.json(deck))
           .catch(err => res.json(err))
-      )
+      })
       .catch(err => res.json(err))
   }
 
   delete(req, res) {
-    Card.findByIdAndDelete(req.params.id)
-      .then(response => res.json({ success: true }))
+    Deck.findById(req.params.deckId)
+      .then(deck => {
+        deck.cards.id(req.params.cardId).remove()
+        deck
+          .save()
+          .then(deck => res.json(deck))
+          .catch(err => res.json(err))
+      })
       .catch(err => res.json(err))
   }
 }
