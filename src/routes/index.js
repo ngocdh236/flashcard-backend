@@ -23,12 +23,12 @@ router.delete(
 const categoriesUrl = '/categories'
 
 router.post(
-  `${categoriesUrl}/`,
+  categoriesUrl,
   passport.authenticate('jwt', { session: false }),
   categoriesController.create
 )
 router.get(
-  `${categoriesUrl}/`,
+  categoriesUrl,
   passport.authenticate('jwt', { session: false }),
   categoriesController.getAll
 )
@@ -47,12 +47,12 @@ router.delete(
 const decksUrl = '/decks'
 
 router.post(
-  `${decksUrl}/`,
+  decksUrl,
   passport.authenticate('jwt', { session: false }),
   decksController.create
 )
 router.get(
-  `${decksUrl}/`,
+  decksUrl,
   passport.authenticate('jwt', { session: false }),
   decksController.getAll
 )
@@ -71,12 +71,12 @@ router.delete(
 const cardsUrl = '/cards'
 
 router.post(
-  `${cardsUrl}/`,
+  cardsUrl,
   passport.authenticate('jwt', { session: false }),
   cardsController.create
 )
 router.get(
-  `${cardsUrl}/`,
+  cardsUrl,
   passport.authenticate('jwt', { session: false }),
   cardsController.getAll
 )
