@@ -1,8 +1,8 @@
-import validator from 'validator'
+const validator = require('validator')
 
-import isEmpty from './isEmpty'
+const { isEmpty } = require('./isEmpty')
 
-export default function validateCategoryInput(data) {
+exports.validateCategoryInput = data => {
   let errors = {}
 
   const name = !isEmpty(data.name) ? data.name : ''

@@ -1,10 +1,10 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import bodyParser from 'body-parser'
+const express = require('express')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
-import keys from './config/keys'
-import passport from './config/passport'
-import router from './routes'
+const { keys } = require('./src/config/keys')
+const { passport } = require('./src/config/passport')
+const { router } = require('./src/routes')
 
 const db = keys.mongoURI
 mongoose

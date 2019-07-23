@@ -88,7 +88,5 @@ typings/
 .dynamodb/
 
 src/config/keys_dev.js
-build/
-
 # End of https://www.gitignore.io/api/node
 

@@ -5,15 +5,11 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel -d ./build ./src -s",
-    "build": "npm run clean && npm run build-babel",
-    "start": "npm run build && nodemon ./build/server.js"
+    "start": "nodemon server.js"
   },
   "author": "Doan Hong Ngoc",
   "license": "ISC",
   "dependencies": {
-    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.0",

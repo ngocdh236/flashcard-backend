@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
@@ -29,4 +29,4 @@ const DeckSchema = new Schema({
   cards: [CardSchema]
 })
 
-export default mongoose.model('decks', DeckSchema)
+exports.Deck = mongoose.model('decks', DeckSchema)

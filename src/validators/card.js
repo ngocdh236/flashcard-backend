@@ -1,8 +1,8 @@
-import validator from 'validator'
+const validator = require('validator')
 
-import isEmpty from './isEmpty'
+const { isEmpty } = require('./isEmpty')
 
-export default function validateCardInput(data) {
+exports.validateCardInput = data => {
   let errors = {}
 
   const key = !isEmpty(data.key) ? data.key : ''

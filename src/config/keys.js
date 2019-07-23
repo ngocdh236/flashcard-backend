@@ -1,6 +1,4 @@
-import keysProd from './keys_prod'
-import keysDev from './keys_dev'
+const { keysProd } = require('./keys_prod')
+const { keysDev } = require('./keys_dev')
 
-const keys = process.env.NODE_ENV === 'production' ? keysProd : keysDev
-
-export default keys
+exports.keys = process.env.NODE_ENV === 'production' ? keysProd : keysDev
