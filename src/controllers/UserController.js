@@ -32,7 +32,7 @@ const register = (req, res) => {
           user.password = hash
           user
             .save()
-            .then(user => res.json(user))
+            .then(user => res.json({ success: true }))
             .catch(err => res.json(err))
         })
       })

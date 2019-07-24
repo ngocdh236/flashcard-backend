@@ -6,12 +6,10 @@ const { keys } = require('./src/config/keys')
 const { passport } = require('./src/config/passport')
 const { router } = require('./src/routes')
 
-const db = keys.mongoURI
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(keys.mongoURI, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err))
-mongoose.set('useFindAndModify', false)
 
 const app = express()
 
