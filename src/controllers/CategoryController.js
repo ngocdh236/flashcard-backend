@@ -1,6 +1,5 @@
 const { Category } = require('../models/Category')
 const { Deck } = require('../models/Deck')
-const { validateCategoryInput } = require('../validators/category')
 
 const getAll = (req, res) => {
   Category.find({ userId: req.user.id })
@@ -11,12 +10,7 @@ const getAll = (req, res) => {
 }
 
 const create = (req, res) => {
-  const { errors, isValid } = validateCategoryInput(req.body)
-
-  if (!isValid) {
-    return res.status(400).json(errors)
-  }
-
+  let errors = {}
   Category.findOne({
     name: req.body.name,
     userId: req.user.id
@@ -38,11 +32,6 @@ const create = (req, res) => {
 }
 
 const update = (req, res) => {
-  const { errors, isValid } = validateCategoryInput(req.body)
-  if (!isValid) {
-    return res.status(400).json(errors)
-  }
-
   Category.findByIdAndUpdate(req.params.id, req.body)
     .then(response =>
       Category.findById(req.params.id)

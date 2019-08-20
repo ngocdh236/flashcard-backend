@@ -5,16 +5,9 @@ const { keys } = require('../config/keys')
 const { User } = require('../models/User')
 const { Category } = require('../models/Category')
 const { Deck } = require('../models/Deck')
-const { validateRegisterInput } = require('../validators/register')
-const { validateLoginInput } = require('../validators/login')
 
 const register = (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body)
-
-  if (!isValid) {
-    return res.status(400).json(errors)
-  }
-
+  let errors = {}
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       errors.email = 'Email already exists'
@@ -41,14 +34,8 @@ const register = (req, res) => {
 }
 
 const login = (req, res) => {
-  const { errors, isValid } = validateLoginInput(req.body)
-
-  if (!isValid) {
-    return res.status(400).json(errors)
-  }
-
-  const email = req.body.email
-  const password = req.body.password
+  let errors = {}
+  const { email, password } = req.body
 
   User.findOne({ email }).then(user => {
     if (!user) {
@@ -67,7 +54,7 @@ const login = (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token: 'Bearer ' + token
+              token
             })
           }
         )

@@ -1,18 +1,35 @@
 const express = require('express')
 const passport = require('passport')
 
+const {
+  validateModel,
+  RegisterInput,
+  LoginInput,
+  CategoryInput,
+  DeckInput,
+  CardInput
+} = require('../middlewares/validate')
 const { UserController } = require('../controllers/UserController')
 const { CategoryController } = require('../controllers/CategoryController')
 const { DeckController } = require('../controllers/DeckController')
 const { CardController } = require('../controllers/CardController')
 
 const router = express.Router()
+const passportJwt = passport.authenticate('jwt', { session: false })
 
 // USERS
 const usersUrl = '/users'
 
-router.post(`${usersUrl}/register`, UserController.register)
-router.post(`${usersUrl}/login`, UserController.login)
+router.post(
+  `${usersUrl}/register`,
+  validateModel(RegisterInput),
+  UserController.register
+)
+router.post(
+  `${usersUrl}/login`,
+  validateModel(LoginInput),
+  UserController.login
+)
 router.delete(
   usersUrl,
   passport.authenticate('jwt', { session: false }),
@@ -24,66 +41,52 @@ const categoriesUrl = '/categories'
 
 router.post(
   categoriesUrl,
-  passport.authenticate('jwt', { session: false }),
+  passportJwt,
+  validateModel(CategoryInput),
   CategoryController.create
 )
-router.get(
-  categoriesUrl,
-  passport.authenticate('jwt', { session: false }),
-  CategoryController.getAll
-)
+router.get(categoriesUrl, passportJwt, CategoryController.getAll)
 router.put(
   `${categoriesUrl}/:id`,
-  passport.authenticate('jwt', { session: false }),
+  passportJwt,
+  validateModel(CategoryInput),
   CategoryController.update
 )
-router.delete(
-  `${categoriesUrl}/:id`,
-  passport.authenticate('jwt', { session: false }),
-  CategoryController.remove
-)
+router.delete(`${categoriesUrl}/:id`, passportJwt, CategoryController.remove)
 
 // DECKS
 const decksUrl = '/decks'
 
 router.post(
   decksUrl,
-  passport.authenticate('jwt', { session: false }),
+  passportJwt,
+  validateModel(DeckInput),
   DeckController.create
 )
-router.get(
-  decksUrl,
-  passport.authenticate('jwt', { session: false }),
-  DeckController.getAll
-)
+router.get(decksUrl, passportJwt, DeckController.getAll)
 router.put(
   `${decksUrl}/:id`,
-  passport.authenticate('jwt', { session: false }),
+  passportJwt,
+  validateModel(DeckInput),
   DeckController.update
 )
-router.delete(
-  `${decksUrl}/:id`,
-  passport.authenticate('jwt', { session: false }),
-  DeckController.remove
-)
+router.delete(`${decksUrl}/:id`, passportJwt, DeckController.remove)
 
 // CARDS
 const cardsUrl = '/decks/:deckId/cards'
 
 router.post(
   cardsUrl,
-  passport.authenticate('jwt', { session: false }),
+  passportJwt,
+  validateModel(CardInput),
   CardController.create
 )
 router.put(
   `${cardsUrl}/:cardId`,
-  passport.authenticate('jwt', { session: false }),
+  passportJwt,
+  validateModel(CardInput),
   CardController.update
 )
-router.delete(
-  `${cardsUrl}/:cardId`,
-  passport.authenticate('jwt', { session: false }),
-  CardController.remove
-)
+router.delete(`${cardsUrl}/:cardId`, passportJwt, CardController.remove)
 
 exports.router = router

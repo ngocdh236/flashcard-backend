@@ -1,5 +1,4 @@
 const { Deck } = require('../models/Deck')
-const { validateDeckInput } = require('../validators/deck')
 
 const getAll = (req, res) => {
   Deck.find({ userId: req.user.id })
@@ -8,12 +7,7 @@ const getAll = (req, res) => {
 }
 
 const create = (req, res) => {
-  const { errors, isValid } = validateDeckInput(req.body)
-
-  if (!isValid) {
-    return res.status(400).json(errors)
-  }
-
+  let errors = {}
   Deck.findOne({ name: req.body.name, userId: req.user.id }).then(deck => {
     if (deck) {
       errors.name = 'Deck already exists'
@@ -33,11 +27,6 @@ const create = (req, res) => {
 }
 
 const update = (req, res) => {
-  const { errors, isValid } = validateDeckInput(req.body)
-  if (!isValid) {
-    return res.status(400).json(errors)
-  }
-
   Deck.findByIdAndUpdate(req.params.id, req.body)
     .then(response =>
       Deck.findById(req.params.id)
