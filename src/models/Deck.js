@@ -14,19 +14,19 @@ const CardSchema = new Schema({
 })
 
 const DeckSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  categoryId: {
-    type: Schema.Types.ObjectId,
-    ref: 'categories'
-  },
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
-  cards: [CardSchema]
+  name: {
+    type: String,
+    required: true
+  },
+  cards: [CardSchema],
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: 'categories'
+  }
 })
 
 exports.Deck = mongoose.model('decks', DeckSchema)
