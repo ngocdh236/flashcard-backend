@@ -1,14 +1,6 @@
 const { Category } = require('../models/Category')
 const { Deck } = require('../models/Deck')
 
-const getAll = (req, res) => {
-  Category.find({ userId: req.user.id })
-    .then(categories => {
-      res.json(categories)
-    })
-    .catch(err => res.json(err))
-}
-
 const create = (req, res) => {
   let errors = {}
   Category.findOne({
@@ -28,6 +20,20 @@ const create = (req, res) => {
         .then(category => res.json(category))
         .catch(err => res.json(err))
     }
+  })
+}
+
+const getAll = (req, res) => {
+  Category.find({ userId: req.user.id })
+    .then(categories => {
+      res.json(categories)
+    })
+    .catch(err => res.json(err))
+}
+
+const getById = (req, res) => {
+  Category.findById(req.params.id).then(category => {
+    res.status(200).json(category)
   })
 }
 
@@ -56,4 +62,4 @@ const remove = (req, res) => {
     .catch(err => res.json(err))
 }
 
-exports.CategoryController = { create, getAll, update, remove }
+exports.CategoryController = { create, getAll, getById, update, remove }
