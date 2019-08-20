@@ -17,4 +17,12 @@ const UserSchema = new Schema({
   }
 })
 
+UserSchema.set('toJSON', {
+  versionKey: false,
+  transform: (doc, ret, options) => {
+    delete ret._id
+    return { id: doc._id, ...ret }
+  }
+})
+
 exports.User = mongoose.model('users', UserSchema)
