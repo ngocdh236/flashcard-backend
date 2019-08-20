@@ -5,6 +5,8 @@ const {
   validateModel,
   RegisterInput,
   LoginInput,
+  UpdateUserInput,
+  ChangeUserPasswordInput,
   CategoryInput,
   DeckInput,
   CardInput
@@ -30,11 +32,19 @@ router.post(
   validateModel(LoginInput),
   UserController.login
 )
-router.delete(
+router.put(
   usersUrl,
-  passport.authenticate('jwt', { session: false }),
-  UserController.remove
+  passportJwt,
+  validateModel(UpdateUserInput),
+  UserController.update
 )
+router.patch(
+  `${usersUrl}/password`,
+  passportJwt,
+  validateModel(ChangeUserPasswordInput),
+  UserController.changePassword
+)
+router.delete(usersUrl, passportJwt, UserController.remove)
 
 // CATEGORIES
 const categoriesUrl = '/categories'
@@ -46,6 +56,7 @@ router.post(
   CategoryController.create
 )
 router.get(categoriesUrl, passportJwt, CategoryController.getAll)
+router.get(`${categoriesUrl}/:id`, passportJwt, CategoryController.getById)
 router.put(
   `${categoriesUrl}/:id`,
   passportJwt,

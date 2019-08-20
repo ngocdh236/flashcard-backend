@@ -66,6 +66,33 @@ const login = (req, res) => {
   })
 }
 
+const update = (req, res) => {
+  User.findById(req.user.id).then(user => {
+    const { name, email } = req.body
+    user.name = name
+    user.email = email
+    user
+      .save()
+      .then(user => res.status(200).json({ success: true }))
+      .catch(err => res.json(err))
+  })
+}
+
+const changePassword = (req, res) => {
+  User.findById(req.user.id).then(user => {
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(req.body.password, salt, (err, hash) => {
+        if (err) throw err
+        user.password = hash
+        user
+          .save()
+          .then(user => res.status(200).json({ success: true }))
+          .catch(err => res.json(err))
+      })
+    })
+  })
+}
+
 const remove = (req, res) => {
   Deck.deleteMany({ userId: req.user.id })
     .then(
@@ -80,4 +107,4 @@ const remove = (req, res) => {
     .catch(err => res.json(err))
 }
 
-exports.UserController = { register, login, remove }
+exports.UserController = { register, login, update, changePassword, remove }
