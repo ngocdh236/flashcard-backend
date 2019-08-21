@@ -1,13 +1,13 @@
 const validator = require('validator')
 const { isEmpty } = require('../utils/isEmpty')
 
-const validateModel = model => (req, res, next) => {
+const validateModelInput = model => (req, res, next) => {
   const { errors, isValid } = model(req.body)
   if (!isValid) return res.status(400).json(errors)
   next()
 }
 
-const RegisterInput = data => {
+const Register = data => {
   let errors = {}
 
   const email = data.email ? data.email : ''
@@ -44,7 +44,7 @@ const RegisterInput = data => {
   }
 }
 
-const LoginInput = data => {
+const Login = data => {
   let errors = {}
 
   const email = data.email ? data.email : ''
@@ -68,7 +68,7 @@ const LoginInput = data => {
   }
 }
 
-const UpdateUserInput = data => {
+const UpdateUser = data => {
   let errors = {}
 
   const email = data.email ? data.email : ''
@@ -96,7 +96,7 @@ const UpdateUserInput = data => {
   }
 }
 
-const ChangeUserPasswordInput = data => {
+const ChangeUserPassword = data => {
   let errors = {}
 
   const password = data.password ? data.password : ''
@@ -115,7 +115,7 @@ const ChangeUserPasswordInput = data => {
   }
 }
 
-const CategoryInput = data => {
+const Category = data => {
   let errors = {}
 
   const name = data.name ? data.name : ''
@@ -127,7 +127,7 @@ const CategoryInput = data => {
   return { errors, isValid: isEmpty(errors) }
 }
 
-const DeckInput = data => {
+const Deck = data => {
   let errors = {}
 
   const name = data.name ? data.name : ''
@@ -139,7 +139,7 @@ const DeckInput = data => {
   return { errors, isValid: isEmpty(errors) }
 }
 
-const CardInput = data => {
+const Card = data => {
   let errors = {}
 
   const key = data.key ? data.key : ''
@@ -157,12 +157,12 @@ const CardInput = data => {
 }
 
 module.exports = {
-  validateModel,
-  RegisterInput,
-  LoginInput,
-  UpdateUserInput,
-  ChangeUserPasswordInput,
-  CategoryInput,
-  DeckInput,
-  CardInput
+  validateModelInput,
+  Register,
+  Login,
+  UpdateUser,
+  ChangeUserPassword,
+  Category,
+  Deck,
+  Card
 }

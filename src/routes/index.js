@@ -2,15 +2,15 @@ const express = require('express')
 const passport = require('passport')
 
 const {
-  validateModel,
-  RegisterInput,
-  LoginInput,
-  UpdateUserInput,
-  ChangeUserPasswordInput,
-  CategoryInput,
-  DeckInput,
-  CardInput
-} = require('../middlewares/validate')
+  validateModelInput,
+  Register,
+  Login,
+  UpdateUser,
+  ChangeUserPassword,
+  Category,
+  Deck,
+  Card
+} = require('../middlewares/validateInput')
 const { UserController } = require('../controllers/UserController')
 const { CategoryController } = require('../controllers/CategoryController')
 const { DeckController } = require('../controllers/DeckController')
@@ -24,24 +24,24 @@ const usersUrl = '/users'
 
 router.post(
   `${usersUrl}/register`,
-  validateModel(RegisterInput),
+  validateModelInput(Register),
   UserController.register
 )
 router.post(
   `${usersUrl}/login`,
-  validateModel(LoginInput),
+  validateModelInput(Login),
   UserController.login
 )
 router.put(
   usersUrl,
   passportJwt,
-  validateModel(UpdateUserInput),
+  validateModelInput(UpdateUser),
   UserController.update
 )
 router.patch(
   `${usersUrl}/password`,
   passportJwt,
-  validateModel(ChangeUserPasswordInput),
+  validateModelInput(ChangeUserPassword),
   UserController.changePassword
 )
 router.delete(usersUrl, passportJwt, UserController.remove)
@@ -52,7 +52,7 @@ const categoriesUrl = '/categories'
 router.post(
   categoriesUrl,
   passportJwt,
-  validateModel(CategoryInput),
+  validateModelInput(Category),
   CategoryController.create
 )
 router.get(categoriesUrl, passportJwt, CategoryController.getAll)
@@ -60,7 +60,7 @@ router.get(`${categoriesUrl}/:id`, passportJwt, CategoryController.getById)
 router.put(
   `${categoriesUrl}/:id`,
   passportJwt,
-  validateModel(CategoryInput),
+  validateModelInput(Category),
   CategoryController.update
 )
 router.delete(`${categoriesUrl}/:id`, passportJwt, CategoryController.remove)
@@ -71,14 +71,14 @@ const decksUrl = '/decks'
 router.post(
   decksUrl,
   passportJwt,
-  validateModel(DeckInput),
+  validateModelInput(Deck),
   DeckController.create
 )
 router.get(decksUrl, passportJwt, DeckController.getAll)
 router.put(
   `${decksUrl}/:id`,
   passportJwt,
-  validateModel(DeckInput),
+  validateModelInput(Deck),
   DeckController.update
 )
 router.delete(`${decksUrl}/:id`, passportJwt, DeckController.remove)
@@ -89,13 +89,13 @@ const cardsUrl = '/decks/:deckId/cards'
 router.post(
   cardsUrl,
   passportJwt,
-  validateModel(CardInput),
+  validateModelInput(Card),
   CardController.create
 )
 router.put(
   `${cardsUrl}/:cardId`,
   passportJwt,
-  validateModel(CardInput),
+  validateModelInput(Card),
   CardController.update
 )
 router.delete(`${cardsUrl}/:cardId`, passportJwt, CardController.remove)
