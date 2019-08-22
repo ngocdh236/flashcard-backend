@@ -91,6 +91,12 @@ router.post(
   DeckController.create
 )
 router.get(decksUrl, passportJwt, DeckController.getAll)
+router.get(
+  `${decksUrl}/:id`,
+  passportJwt,
+  checkAccessRight(ObjectTitles.DECK, Rights.GET),
+  DeckController.getById
+)
 router.put(
   `${decksUrl}/:id`,
   passportJwt,

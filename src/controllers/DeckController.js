@@ -3,12 +3,6 @@ const { Category } = require('../models/Category')
 const { ACL } = require('../models/ACL')
 const { ObjectTitles, Rights } = require('../middlewares/checkAccessRight')
 
-const getAll = (req, res) => {
-  Deck.find({ userId: req.user.id })
-    .then(decks => res.json(decks))
-    .catch(err => res.json(err))
-}
-
 const create = (req, res) => {
   let errors = {}
   const userId = req.user.id
@@ -47,6 +41,18 @@ const create = (req, res) => {
   })
 }
 
+const getAll = (req, res) => {
+  Deck.find({ userId: req.user.id })
+    .then(decks => res.json(decks))
+    .catch(err => res.json(err))
+}
+
+const getById = (req, res) => {
+  Deck.findById(req.params.id).then(deck => {
+    res.status(200).json(deck)
+  })
+}
+
 const update = (req, res) => {
   Deck.findByIdAndUpdate(req.params.id, req.body)
     .then(response =>
@@ -67,4 +73,4 @@ const remove = (req, res) => {
     .catch(err => res.json(err))
 }
 
-exports.DeckController = { create, getAll, update, remove }
+exports.DeckController = { create, getAll, getById, update, remove }

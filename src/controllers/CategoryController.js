@@ -61,12 +61,7 @@ const remove = (req, res) => {
     .then(category =>
       Deck.updateMany({ categoryId: category.id }, { categoryId: null })
         .then(response => res.json({ success: true }))
-        .catch(err =>
-          res.json({
-            success: true,
-            decksRemovingRefErrors: err
-          })
-        )
+        .catch(err => res.json(err))
     )
     .catch(err => res.json(err))
 }
