@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const isEmpty = require('../middlewares/validate')
+const { isEmpty } = require('../utils/isEmpty')
 
 const { Schema } = mongoose
 
@@ -19,6 +19,4 @@ const ACLSchema = new Schema({
   }
 })
 
-const ACL = mongoose.model('ACL', ACLSchema)
-
-module.exports = Authority
+exports.ACL = mongoose.model('ACL', ACLSchema)
