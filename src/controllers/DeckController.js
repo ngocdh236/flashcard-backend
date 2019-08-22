@@ -34,43 +34,46 @@ const create = (req, res) => {
               Rights.REMOVE
             ]
           })
-          return res.json(deck)
+          return res.status(201).json(deck)
         })
-        .catch(err => res.json(err))
+        .catch(err => res.status(400).json(err))
     }
   })
 }
 
 const getAll = (req, res) => {
   Deck.find({ userId: req.user.id })
-    .then(decks => res.json(decks))
-    .catch(err => res.json(err))
+    .then(decks => res.status(200).json(decks))
+    .catch(err => res.status(400).json(err))
 }
 
 const getById = (req, res) => {
-  Deck.findById(req.params.id).then(deck => {
-    res.status(200).json(deck)
-  })
+  Deck.findById(req.params.id)
+    .then(deck => {
+      res.status(200).json(deck)
+    })
+    .catch(err => res.status(400).json(err))
 }
 
 const update = (req, res) => {
   Deck.findByIdAndUpdate(req.params.id, req.body)
-    .then(response =>
-      Deck.findById(req.params.id)
-        .then(deck => res.json(deck))
-        .catch(err => res.json(err))
+    .then(deck =>
+      res
+        .status(200)
+        .json({ success: true, message: 'Deck updated successfully' })
     )
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
 }
 
 const remove = (req, res) => {
   Deck.findByIdAndDelete(req.params.id)
     .then(deck =>
-      res.json({
-        success: true
+      res.status(200).json({
+        success: true,
+        message: 'Deck removed successfully'
       })
     )
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
 }
 
 exports.DeckController = { create, getAll, getById, update, remove }

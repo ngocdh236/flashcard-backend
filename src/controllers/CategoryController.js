@@ -28,42 +28,45 @@ const create = (req, res) => {
         })
         return res.status(201).json(category)
       })
-      .catch(err => res.json(err))
+      .catch(err => res.status(400).json(err))
   })
 }
 
 const getAll = (req, res) => {
   Category.find({ userId: req.user.id })
     .then(categories => {
-      res.json(categories)
+      res.status(200).json(categories)
     })
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
 }
 
 const getById = (req, res) => {
-  Category.findById(req.params.id).then(category => {
-    res.status(200).json(category)
-  })
+  Category.findById(req.params.id)
+    .then(category => {
+      res.status(200).json(category)
+    })
+    .catch(err => res.status(400).json(err))
 }
 
 const update = (req, res) => {
   Category.findByIdAndUpdate(req.params.id, req.body)
-    .then(response =>
-      Category.findById(req.params.id)
-        .then(category => res.json(category))
-        .catch(err => res.json(err))
+    .then(
+      res
+        .status(200)
+        .json({ success: true, message: 'Category updated successfully' })
     )
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
 }
 
-const remove = (req, res) => {
-  Category.findByIdAndDelete(req.params.id)
-    .then(category =>
-      Deck.updateMany({ categoryId: category.id }, { categoryId: null })
-        .then(response => res.json({ success: true }))
-        .catch(err => res.json(err))
+const remove = async (req, res) => {
+  await Category.findByIdAndDelete(req.params.id)
+    .then(response =>
+      res
+        .status(200)
+        .json({ success: true, message: 'Category removed successfully' })
     )
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
+  await Deck.updateMany({ categoryId: category.id }, { categoryId: null })
 }
 
 exports.CategoryController = { create, getAll, getById, update, remove }
