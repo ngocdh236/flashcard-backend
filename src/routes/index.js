@@ -1,6 +1,15 @@
 const express = require('express')
 const passport = require('passport')
 
+const { UserController } = require('../controllers/UserController')
+const { CategoryController } = require('../controllers/CategoryController')
+const { DeckController } = require('../controllers/DeckController')
+const { CardController } = require('../controllers/CardController')
+const {
+  checkAccessRight,
+  ObjectTitles,
+  Rights
+} = require('../middlewares/checkAccessRight')
 const {
   validateModelInput,
   Register,
@@ -11,10 +20,6 @@ const {
   Deck,
   Card
 } = require('../middlewares/validateInput')
-const { UserController } = require('../controllers/UserController')
-const { CategoryController } = require('../controllers/CategoryController')
-const { DeckController } = require('../controllers/DeckController')
-const { CardController } = require('../controllers/CardController')
 
 const router = express.Router()
 const passportJwt = passport.authenticate('jwt', { session: false })
@@ -56,14 +61,25 @@ router.post(
   CategoryController.create
 )
 router.get(categoriesUrl, passportJwt, CategoryController.getAll)
-router.get(`${categoriesUrl}/:id`, passportJwt, CategoryController.getById)
+router.get(
+  `${categoriesUrl}/:id`,
+  passportJwt,
+  checkAccessRight(ObjectTitles.CATEGORY, Rights.GET),
+  CategoryController.getById
+)
 router.put(
   `${categoriesUrl}/:id`,
   passportJwt,
+  checkAccessRight(ObjectTitles.CATEGORY, Rights.UPDATE),
   validateModelInput(Category),
   CategoryController.update
 )
-router.delete(`${categoriesUrl}/:id`, passportJwt, CategoryController.remove)
+router.delete(
+  `${categoriesUrl}/:id`,
+  passportJwt,
+  checkAccessRight(ObjectTitles.CATEGORY, Rights.REMOVE),
+  CategoryController.remove
+)
 
 // DECKS
 const decksUrl = '/decks'
@@ -78,10 +94,16 @@ router.get(decksUrl, passportJwt, DeckController.getAll)
 router.put(
   `${decksUrl}/:id`,
   passportJwt,
+  checkAccessRight(ObjectTitles.DECK, Rights.UPDATE),
   validateModelInput(Deck),
   DeckController.update
 )
-router.delete(`${decksUrl}/:id`, passportJwt, DeckController.remove)
+router.delete(
+  `${decksUrl}/:id`,
+  passportJwt,
+  checkAccessRight(ObjectTitles.DECK, Rights.REMOVE),
+  DeckController.remove
+)
 
 // CARDS
 const cardsUrl = '/decks/:deckId/cards'
@@ -89,15 +111,22 @@ const cardsUrl = '/decks/:deckId/cards'
 router.post(
   cardsUrl,
   passportJwt,
+  checkAccessRight(ObjectTitles.DECK, Rights.CREATE_CARD),
   validateModelInput(Card),
   CardController.create
 )
 router.put(
   `${cardsUrl}/:cardId`,
   passportJwt,
+  checkAccessRight(ObjectTitles.DECK, Rights.UPDATE),
   validateModelInput(Card),
   CardController.update
 )
-router.delete(`${cardsUrl}/:cardId`, passportJwt, CardController.remove)
+router.delete(
+  `${cardsUrl}/:cardId`,
+  passportJwt,
+  checkAccessRight(ObjectTitles.DECK, Rights.REMOVE),
+  CardController.remove
+)
 
 exports.router = router

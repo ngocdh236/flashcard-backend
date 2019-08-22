@@ -1,15 +1,15 @@
 /* eslint-disable eqeqeq */
-const ACL = require('../models/ACL')
+const { ACL } = require('../models/ACL')
 const { isEmpty } = require('../utils/isEmpty')
 
-const ObjectTitle = Object.freeze({
+const ObjectTitles = Object.freeze({
   CATEGORY: 'Category',
   DECK: 'Deck',
   CARD: 'Card'
 })
 
 const Rights = Object.freeze({
-  CREATE: 'create',
+  CREATE_CARD: 'create_card',
   GET: 'get',
   UPDATE: 'update',
   REMOVE: 'remove'
@@ -17,7 +17,15 @@ const Rights = Object.freeze({
 
 const checkAccessRight = (objectTitle, action) => (req, res, next) => {
   const userId = req.user.id
-  const objectId = req.body.id || req.params.id
+  const { id, deckId } = req.params
+
+  let objectId = {}
+
+  if (deckId) {
+    objectId = deckId
+  } else {
+    objectId = req.body.id || id
+  }
 
   ACL.find({ objectTitle, objectId }).then(queries => {
     if (isEmpty(queries))
@@ -33,4 +41,4 @@ const checkAccessRight = (objectTitle, action) => (req, res, next) => {
   })
 }
 
-module.exports = { ObjectTitle, Rights, checkAccessRight }
+module.exports = { ObjectTitles, Rights, checkAccessRight }

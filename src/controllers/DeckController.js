@@ -1,4 +1,7 @@
 const { Deck } = require('../models/Deck')
+const { Category } = require('../models/Category')
+const { ACL } = require('../models/ACL')
+const { ObjectTitles, Rights } = require('../middlewares/checkAccessRight')
 
 const getAll = (req, res) => {
   Deck.find({ userId: req.user.id })
@@ -8,19 +11,37 @@ const getAll = (req, res) => {
 
 const create = (req, res) => {
   let errors = {}
-  Deck.findOne({ name: req.body.name, userId: req.user.id }).then(deck => {
+  const userId = req.user.id
+  const { name, categoryId } = req.body
+  if (categoryId) {
+    ACL.findOne({ objectTitle: ObjectTitles.CATEGORY, userId }).then(query => {
+      if (!query) return res.status(401).json({ error: 'Unauthorized' })
+    })
+  }
+  Deck.findOne({ name, userId }).then(deck => {
     if (deck) {
       errors.name = 'Deck already exists'
       return res.status(400).json(errors)
     } else {
-      const deck = new Deck({
-        name: req.body.name,
-        userId: req.user.id,
-        categoryId: req.body.categoryId ? req.body.categoryId : null
+      Deck.create({
+        name,
+        userId,
+        categoryId
       })
-      deck
-        .save()
-        .then(deck => res.json(deck))
+        .then(async deck => {
+          await ACL.create({
+            objectTitle: ObjectTitles.DECK,
+            objectId: deck.id,
+            userId,
+            rights: [
+              Rights.GET,
+              Rights.CREATE_CARD,
+              Rights.UPDATE,
+              Rights.REMOVE
+            ]
+          })
+          return res.json(deck)
+        })
         .catch(err => res.json(err))
     }
   })
