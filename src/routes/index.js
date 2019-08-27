@@ -11,7 +11,7 @@ const {
   Rights
 } = require('../middlewares/checkAccessRight')
 const {
-  validateModelInput,
+  validateInputModel,
   Register,
   Login,
   UpdateUser,
@@ -29,24 +29,24 @@ const usersUrl = '/users'
 
 router.post(
   `${usersUrl}/register`,
-  validateModelInput(Register),
+  validateInputModel(Register),
   UserController.register
 )
 router.post(
   `${usersUrl}/login`,
-  validateModelInput(Login),
+  validateInputModel(Login),
   UserController.login
 )
 router.put(
   usersUrl,
   passportJwt,
-  validateModelInput(UpdateUser),
+  validateInputModel(UpdateUser),
   UserController.update
 )
 router.patch(
   `${usersUrl}/password`,
   passportJwt,
-  validateModelInput(ChangeUserPassword),
+  validateInputModel(ChangeUserPassword),
   UserController.changePassword
 )
 router.delete(usersUrl, passportJwt, UserController.remove)
@@ -57,7 +57,7 @@ const categoriesUrl = '/categories'
 router.post(
   categoriesUrl,
   passportJwt,
-  validateModelInput(Category),
+  validateInputModel(Category),
   CategoryController.create
 )
 router.get(categoriesUrl, passportJwt, CategoryController.getAll)
@@ -71,7 +71,7 @@ router.put(
   `${categoriesUrl}/:id`,
   passportJwt,
   checkAccessRight(ObjectTitles.CATEGORY, Rights.UPDATE),
-  validateModelInput(Category),
+  validateInputModel(Category),
   CategoryController.update
 )
 router.delete(
@@ -87,7 +87,7 @@ const decksUrl = '/decks'
 router.post(
   decksUrl,
   passportJwt,
-  validateModelInput(Deck),
+  validateInputModel(Deck),
   DeckController.create
 )
 router.get(decksUrl, passportJwt, DeckController.getAll)
@@ -95,7 +95,7 @@ router.put(
   `${decksUrl}/:id`,
   passportJwt,
   checkAccessRight(ObjectTitles.DECK, Rights.UPDATE),
-  validateModelInput(Deck),
+  validateInputModel(Deck),
   DeckController.update
 )
 router.delete(
@@ -112,20 +112,20 @@ router.post(
   cardsUrl,
   passportJwt,
   checkAccessRight(ObjectTitles.DECK, Rights.CREATE_CARD),
-  validateModelInput(Card),
+  validateInputModel(Card),
   CardController.create
 )
 router.put(
   `${cardsUrl}/:cardId`,
   passportJwt,
   checkAccessRight(ObjectTitles.DECK, Rights.UPDATE),
-  validateModelInput(Card),
+  validateInputModel(Card),
   CardController.update
 )
 router.delete(
   `${cardsUrl}/:cardId`,
   passportJwt,
-  checkAccessRight(ObjectTitles.DECK, Rights.REMOVE),
+  checkAccessRight(ObjectTitles.DECK, Rights.UPDATE),
   CardController.remove
 )
 

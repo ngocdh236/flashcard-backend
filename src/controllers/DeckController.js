@@ -15,7 +15,7 @@ const create = (req, res) => {
   const { name, categoryId } = req.body
   if (categoryId) {
     ACL.findOne({ objectTitle: ObjectTitles.CATEGORY, userId }).then(query => {
-      if (!query) return res.status(401).json({ error: 'Unauthorized' })
+      if (!query) return res.status(403).json({ error: 'Access denied' })
     })
   }
   Deck.findOne({ name, userId }).then(deck => {

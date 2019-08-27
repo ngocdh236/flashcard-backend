@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 const { ACL } = require('../models/ACL')
 const { isEmpty } = require('../utils/isEmpty')
 
@@ -32,10 +31,10 @@ const checkAccessRight = (objectTitle, action) => (req, res, next) => {
       return res.status(404).json({ error: `${objectTitle} not found` })
 
     queries.forEach(query => {
-      if (query.userId == userId && query.rights.includes(action)) {
+      if (query.userId.toString() === userId && query.rights.includes(action)) {
         next()
       } else {
-        return res.status(401).json({ error: 'Unauthorized' })
+        return res.status(403).json({ error: 'Access denied' })
       }
     })
   })

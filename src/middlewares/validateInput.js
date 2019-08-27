@@ -1,7 +1,7 @@
 const validator = require('validator')
 const { isEmpty } = require('../utils/isEmpty')
 
-const validateModelInput = model => (req, res, next) => {
+const validateInputModel = model => (req, res, next) => {
   const { errors, isValid } = model(req.body)
   if (!isValid) return res.status(400).json(errors)
   next()
@@ -157,7 +157,7 @@ const Card = data => {
 }
 
 module.exports = {
-  validateModelInput,
+  validateInputModel,
   Register,
   Login,
   UpdateUser,
