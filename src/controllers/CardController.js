@@ -6,23 +6,28 @@ const create = (req, res) => {
       deck.cards.push(req.body)
       deck
         .save()
-        .then(deck => res.json(deck))
-        .catch(err => res.json(err))
+        .then(deck => res.status(201).json(deck.cards[deck.cards.length - 1]))
+        .catch(err => res.status(400).json(err))
     })
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
 }
 
 const update = (req, res) => {
   Deck.findById(req.params.deckId)
     .then(deck => {
-      const card = deck.cards.id(req.params.cardId)
-      card.set(req.body)
+      const { id, key, value } = req.body
+      const card = deck.cards.id(id)
+      card.set({ key, value })
       deck
         .save()
-        .then(deck => res.json(deck))
-        .catch(err => res.json(err))
+        .then(deck =>
+          res
+            .status(200)
+            .json({ success: true, message: 'Card updated successfully' })
+        )
+        .catch(err => res.status(400).json(err))
     })
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
 }
 
 const remove = (req, res) => {
@@ -31,10 +36,14 @@ const remove = (req, res) => {
       deck.cards.id(req.params.cardId).remove()
       deck
         .save()
-        .then(deck => res.json(deck))
-        .catch(err => res.json(err))
+        .then(deck =>
+          res
+            .status(200)
+            .json({ success: true, message: 'Card removed successfully' })
+        )
+        .catch(err => res.status(400).json(err))
     })
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
 }
 
 exports.CardController = { create, update, remove }

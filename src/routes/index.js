@@ -68,7 +68,7 @@ router.get(
   CategoryController.getById
 )
 router.put(
-  `${categoriesUrl}/:id`,
+  categoriesUrl,
   passportJwt,
   checkAccessRight(ObjectTitles.CATEGORY, Rights.UPDATE),
   validateInputModel(Category),
@@ -91,8 +91,14 @@ router.post(
   DeckController.create
 )
 router.get(decksUrl, passportJwt, DeckController.getAll)
-router.put(
+router.get(
   `${decksUrl}/:id`,
+  passportJwt,
+  checkAccessRight(ObjectTitles.DECK, Rights.GET),
+  DeckController.getById
+)
+router.put(
+  decksUrl,
   passportJwt,
   checkAccessRight(ObjectTitles.DECK, Rights.UPDATE),
   validateInputModel(Deck),
@@ -116,7 +122,7 @@ router.post(
   CardController.create
 )
 router.put(
-  `${cardsUrl}/:cardId`,
+  cardsUrl,
   passportJwt,
   checkAccessRight(ObjectTitles.DECK, Rights.UPDATE),
   validateInputModel(Card),

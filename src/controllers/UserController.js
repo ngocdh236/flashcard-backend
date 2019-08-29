@@ -25,8 +25,12 @@ const register = (req, res) => {
           user.password = hash
           user
             .save()
-            .then(user => res.json({ success: true }))
-            .catch(err => res.json(err))
+            .then(user =>
+              res
+                .status(201)
+                .json({ success: true, message: 'User created successfully' })
+            )
+            .catch(err => res.status(400).json(err))
         })
       })
     }
@@ -73,8 +77,12 @@ const update = (req, res) => {
     user.email = email
     user
       .save()
-      .then(user => res.status(200).json({ success: true }))
-      .catch(err => res.json(err))
+      .then(user =>
+        res
+          .status(200)
+          .json({ success: true, message: 'User updated successfully' })
+      )
+      .catch(err => res.status(400).json(err))
   })
 }
 
@@ -86,25 +94,27 @@ const changePassword = (req, res) => {
         user.password = hash
         user
           .save()
-          .then(user => res.status(200).json({ success: true }))
-          .catch(err => res.json(err))
+          .then(user =>
+            res
+              .status(200)
+              .json({ success: true, message: 'Password updated successfully' })
+          )
+          .catch(err => res.status(400).json(err))
       })
     })
   })
 }
 
-const remove = (req, res) => {
-  Deck.deleteMany({ userId: req.user.id })
-    .then(
-      Category.deleteMany({ userId: req.user.id })
-        .then(res =>
-          User.findByIdAndDelete(req.user.id)
-            .then(res => res.json({ success: true }))
-            .catch(err => res.json(err))
-        )
-        .catch(err => res.json(err))
+const remove = async (req, res) => {
+  await User.findByIdAndDelete(req.user.id)
+    .then(res =>
+      res
+        .status(200)
+        .json({ success: true, message: 'User removed successfully' })
     )
-    .catch(err => res.json(err))
+    .catch(err => res.status(400).json(err))
+  await Category.deleteMany({ userId: req.user.id })
+  await Deck.deleteMany({ userId: req.user.id })
 }
 
 exports.UserController = { register, login, update, changePassword, remove }
