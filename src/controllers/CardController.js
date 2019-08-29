@@ -15,8 +15,9 @@ const create = (req, res) => {
 const update = (req, res) => {
   Deck.findById(req.params.deckId)
     .then(deck => {
-      const card = deck.cards.id(req.params.cardId)
-      card.set(req.body)
+      const { id, key, value } = req.body
+      const card = deck.cards.id(id)
+      card.set({ key, value })
       deck
         .save()
         .then(deck =>

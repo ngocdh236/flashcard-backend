@@ -56,7 +56,8 @@ const getById = (req, res) => {
 }
 
 const update = (req, res) => {
-  Deck.findByIdAndUpdate(req.params.id, req.body)
+  const { id, name } = req.body
+  Deck.findByIdAndUpdate(id, { name })
     .then(deck =>
       res
         .status(200)

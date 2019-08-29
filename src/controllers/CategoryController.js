@@ -49,7 +49,8 @@ const getById = (req, res) => {
 }
 
 const update = (req, res) => {
-  Category.findByIdAndUpdate(req.params.id, req.body)
+  const { id, name } = req.body
+  Category.findByIdAndUpdate(id, { name })
     .then(
       res
         .status(200)
