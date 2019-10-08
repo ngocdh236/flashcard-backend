@@ -27,8 +27,8 @@ app.use(bodyParser.json());
 app.use(passport);
 app.use('/api', router);
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
+app.get('/api', (req, res) => {
+  res.send('Flashcard API');
 });
 
 const port = process.env.PORT || 5000;
