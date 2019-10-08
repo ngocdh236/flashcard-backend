@@ -1,23 +1,23 @@
-const { Deck } = require('../models/Deck')
+const { Deck } = require('../models/Deck');
 
 const create = (req, res) => {
   Deck.findById(req.params.deckId)
     .then(deck => {
-      deck.cards.push(req.body)
+      deck.cards.push(req.body);
       deck
         .save()
         .then(deck => res.status(201).json(deck.cards[deck.cards.length - 1]))
-        .catch(err => res.status(400).json(err))
+        .catch(err => res.status(400).json(err));
     })
-    .catch(err => res.status(400).json(err))
-}
+    .catch(err => res.status(400).json(err));
+};
 
 const update = (req, res) => {
   Deck.findById(req.params.deckId)
     .then(deck => {
-      const { id, key, value } = req.body
-      const card = deck.cards.id(id)
-      card.set({ key, value })
+      const { id, key, value } = req.body;
+      const card = deck.cards.id(id);
+      card.set({ key, value });
       deck
         .save()
         .then(deck =>
@@ -25,15 +25,15 @@ const update = (req, res) => {
             .status(200)
             .json({ success: true, message: 'Card updated successfully' })
         )
-        .catch(err => res.status(400).json(err))
+        .catch(err => res.status(400).json(err));
     })
-    .catch(err => res.status(400).json(err))
-}
+    .catch(err => res.status(400).json(err));
+};
 
 const remove = (req, res) => {
   Deck.findById(req.params.deckId)
     .then(deck => {
-      deck.cards.id(req.params.cardId).remove()
+      deck.cards.id(req.params.cardId).remove();
       deck
         .save()
         .then(deck =>
@@ -41,9 +41,9 @@ const remove = (req, res) => {
             .status(200)
             .json({ success: true, message: 'Card removed successfully' })
         )
-        .catch(err => res.status(400).json(err))
+        .catch(err => res.status(400).json(err));
     })
-    .catch(err => res.status(400).json(err))
-}
+    .catch(err => res.status(400).json(err));
+};
 
-exports.CardController = { create, update, remove }
+exports.CardController = { create, update, remove };

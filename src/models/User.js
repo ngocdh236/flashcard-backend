@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   name: {
@@ -15,14 +15,14 @@ const UserSchema = new Schema({
     type: String,
     required: true
   }
-})
+});
 
 UserSchema.set('toJSON', {
   versionKey: false,
   transform: (doc, ret, options) => {
-    delete ret._id
-    return { id: doc._id, ...ret }
+    delete ret._id;
+    return { id: doc._id, ...ret };
   }
-})
+});
 
-exports.User = mongoose.model('users', UserSchema)
+exports.User = mongoose.model('users', UserSchema);

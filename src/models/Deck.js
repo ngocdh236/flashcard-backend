@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const CardSchema = new Schema(
   {
@@ -14,15 +14,15 @@ const CardSchema = new Schema(
     }
   },
   { timestamps: true }
-)
+);
 
 CardSchema.set('toJSON', {
   versionKey: false,
   transform: (doc, ret, options) => {
-    delete ret._id
-    return { id: doc._id, ...ret }
+    delete ret._id;
+    return { id: doc._id, ...ret };
   }
-})
+});
 
 const DeckSchema = new Schema(
   {
@@ -38,14 +38,14 @@ const DeckSchema = new Schema(
     }
   },
   { timestamps: true }
-)
+);
 
 DeckSchema.set('toJSON', {
   versionKey: false,
   transform: (doc, ret, options) => {
-    delete ret._id
-    return { id: doc._id, ...ret }
+    delete ret._id;
+    return { id: doc._id, ...ret };
   }
-})
+});
 
-exports.Deck = mongoose.model('decks', DeckSchema)
+exports.Deck = mongoose.model('decks', DeckSchema);

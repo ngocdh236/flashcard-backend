@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const CategorySchema = new Schema(
   {
@@ -11,14 +11,14 @@ const CategorySchema = new Schema(
     }
   },
   { timestamps: true }
-)
+);
 
 CategorySchema.set('toJSON', {
   versionKey: false,
   transform: (doc, ret, options) => {
-    delete ret._id
-    return { id: doc._id, ...ret }
+    delete ret._id;
+    return { id: doc._id, ...ret };
   }
-})
+});
 
-exports.Category = mongoose.model('categories', CategorySchema)
+exports.Category = mongoose.model('categories', CategorySchema);

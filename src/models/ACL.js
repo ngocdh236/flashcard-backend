@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const { isEmpty } = require('../utils/isEmpty')
+const mongoose = require('mongoose');
+const { isEmpty } = require('../utils/isEmpty');
 
-const { Schema } = mongoose
+const { Schema } = mongoose;
 
 const ACLSchema = new Schema({
   objectTitle: { type: String, required: true },
@@ -17,6 +17,6 @@ const ACLSchema = new Schema({
     type: [String],
     validate: rights => !isEmpty(rights)
   }
-})
+});
 
-exports.ACL = mongoose.model('ACL', ACLSchema)
+exports.ACL = mongoose.model('ACL', ACLSchema);
