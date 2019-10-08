@@ -1,10 +1,10 @@
 const express = require('express');
 const passport = require('passport');
 
-const { UserController } = require('../controllers/UserController');
-const { CategoryController } = require('../controllers/CategoryController');
-const { DeckController } = require('../controllers/DeckController');
-const { CardController } = require('../controllers/CardController');
+const { UserController } = require('../controllers/user.controller');
+const { CategoryController } = require('../controllers/category.controller');
+const { DeckController } = require('../controllers/deck.controller');
+const { CardController } = require('../controllers/card.controller');
 const {
   checkAccessRight,
   ObjectTitles,
