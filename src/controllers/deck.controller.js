@@ -42,7 +42,10 @@ const create = (req, res) => {
 };
 
 const getAll = (req, res) => {
+  const { field } = req.params;
+
   Deck.find({ userId: req.user.id })
+    .sort(field ? field : '')
     .then(decks => res.status(200).json(decks))
     .catch(err => res.status(400).json(err));
 };

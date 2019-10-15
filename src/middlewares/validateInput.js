@@ -8,63 +8,90 @@ const validateInputModel = model => (req, res, next) => {
 };
 
 const Register = data => {
-  let errors = {};
+  let errors = [];
 
   const email = data.email ? data.email : '';
   const name = data.name ? data.name : '';
   const password = data.password ? data.password : '';
 
   if (!validator.isLength(name, { min: 2, max: 30 })) {
-    errors.name = 'Name must be between 2 and 30 characters';
+    errors.push({
+      field: 'name',
+      message: 'Name must be between 2 and 30 characters',
+    });
   }
 
   if (validator.isEmpty(name)) {
-    errors.name = 'Name is required';
+    errors.push({
+      field: 'name',
+      message: 'Name is required',
+    });
   }
 
   if (!validator.isEmail(email)) {
-    errors.email = 'Email is invalid';
+    errors.push({
+      field: 'email',
+      message: 'Email is invalid',
+    });
   }
 
   if (validator.isEmpty(email)) {
-    errors.email = 'Email is required';
+    errors.push({
+      field: 'email',
+      message: 'Email is required',
+    });
   }
 
   if (!validator.isLength(password, { min: 6, max: 30 })) {
-    errors.password = 'Password must be at least 6 characters';
+    errors.push({
+      field: 'password',
+      message: 'Password must be at least 6 characters',
+    });
   }
 
   if (validator.isEmpty(password)) {
-    errors.password = 'Password is required';
+    errors.push({
+      field: 'password',
+      message: 'Password is required',
+    });
   }
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };
 
 const Login = data => {
-  let errors = {};
+  let errors = [];
 
   const email = data.email ? data.email : '';
   const password = data.password ? data.password : '';
 
   if (!validator.isEmail(data.email)) {
-    errors.email = 'Email is invalid';
+    errors.push({
+      field: 'email',
+      message: 'Email is invalid',
+    });
   }
 
   if (validator.isEmpty(data.email)) {
-    errors.email = 'Email is required';
+    errors.push({
+      field: 'email',
+      message: 'Email is required',
+    });
   }
 
   if (validator.isEmpty(data.password)) {
-    errors.password = 'Password is required';
+    errors.push({
+      field: 'password',
+      message: 'Password is required',
+    });
   }
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };
 
@@ -92,7 +119,7 @@ const UpdateUser = data => {
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };
 
@@ -111,7 +138,7 @@ const ChangeUserPassword = data => {
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };
 
@@ -164,5 +191,5 @@ module.exports = {
   ChangeUserPassword,
   Category,
   Deck,
-  Card
+  Card,
 };

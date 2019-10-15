@@ -90,7 +90,7 @@ router.post(
   validateInputModel(Deck),
   DeckController.create
 );
-router.get(decksUrl, passportJwt, DeckController.getAll);
+router.get(`${decksUrl}/:field`, passportJwt, DeckController.getAll);
 router.get(
   `${decksUrl}/:id`,
   passportJwt,

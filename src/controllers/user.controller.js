@@ -7,16 +7,16 @@ const { Category } = require('../models/Category');
 const { Deck } = require('../models/Deck');
 
 const register = (req, res) => {
-  let errors = {};
+  let errors = [];
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      errors.email = 'Email already exists';
+      errors.push({ field: 'email', message: 'Email already exists' });
       return res.status(400).json(errors);
     } else {
       const user = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -28,7 +28,7 @@ const register = (req, res) => {
             .then(user =>
               res
                 .status(201)
-                .json({ success: true, message: 'User created successfully' })
+                .json({ success: true, message: 'User created successfully' }),
             )
             .catch(err => res.status(400).json(err));
         });
@@ -38,12 +38,12 @@ const register = (req, res) => {
 };
 
 const login = (req, res) => {
-  let errors = {};
+  let errors = [];
   const { email, password } = req.body;
 
   User.findOne({ email }).then(user => {
     if (!user) {
-      errors.email = 'User not found';
+      errors.push({ field: 'email', message: 'User not found' });
       return res.status(404).json(errors);
     }
 
@@ -58,12 +58,12 @@ const login = (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token
+              token,
             });
-          }
+          },
         );
       } else {
-        errors.password = 'Password incorrect';
+        errors.push({ field: 'password', message: 'Password incorrect' });
         return res.status(400).json(errors);
       }
     });
@@ -80,7 +80,7 @@ const update = (req, res) => {
       .then(user =>
         res
           .status(200)
-          .json({ success: true, message: 'User updated successfully' })
+          .json({ success: true, message: 'User updated successfully' }),
       )
       .catch(err => res.status(400).json(err));
   });
@@ -95,9 +95,10 @@ const changePassword = (req, res) => {
         user
           .save()
           .then(user =>
-            res
-              .status(200)
-              .json({ success: true, message: 'Password updated successfully' })
+            res.status(200).json({
+              success: true,
+              message: 'Password updated successfully',
+            }),
           )
           .catch(err => res.status(400).json(err));
       });
@@ -110,7 +111,7 @@ const remove = async (req, res) => {
     .then(res =>
       res
         .status(200)
-        .json({ success: true, message: 'User removed successfully' })
+        .json({ success: true, message: 'User removed successfully' }),
     )
     .catch(err => res.status(400).json(err));
   await Category.deleteMany({ userId: req.user.id });
