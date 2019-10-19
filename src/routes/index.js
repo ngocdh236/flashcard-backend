@@ -32,17 +32,20 @@ router.post(
   validateInputModel(Register),
   UserController.register
 );
+
 router.post(
   `${usersUrl}/login`,
   validateInputModel(Login),
   UserController.login
 );
+
 router.put(
   usersUrl,
   passportJwt,
   validateInputModel(UpdateUser),
   UserController.update
 );
+
 router.patch(
   `${usersUrl}/password`,
   passportJwt,
@@ -60,13 +63,18 @@ router.post(
   validateInputModel(Category),
   CategoryController.create
 );
+
+// Get all
 router.get(categoriesUrl, passportJwt, CategoryController.getAll);
+
+// Get by id
 router.get(
   `${categoriesUrl}/:id`,
   passportJwt,
   checkAccessRight(ObjectTitles.CATEGORY, Rights.GET),
   CategoryController.getById
 );
+
 router.put(
   categoriesUrl,
   passportJwt,
@@ -74,6 +82,7 @@ router.put(
   validateInputModel(Category),
   CategoryController.update
 );
+
 router.delete(
   `${categoriesUrl}/:id`,
   passportJwt,
@@ -90,13 +99,18 @@ router.post(
   validateInputModel(Deck),
   DeckController.create
 );
-router.get(`${decksUrl}/:field`, passportJwt, DeckController.getAll);
+
+// Get all
+router.get(decksUrl, passportJwt, DeckController.getAll);
+
+// Get by id
 router.get(
   `${decksUrl}/:id`,
   passportJwt,
   checkAccessRight(ObjectTitles.DECK, Rights.GET),
   DeckController.getById
 );
+
 router.put(
   decksUrl,
   passportJwt,
@@ -104,6 +118,7 @@ router.put(
   validateInputModel(Deck),
   DeckController.update
 );
+
 router.delete(
   `${decksUrl}/:id`,
   passportJwt,
@@ -121,6 +136,7 @@ router.post(
   validateInputModel(Card),
   CardController.create
 );
+
 router.put(
   cardsUrl,
   passportJwt,
@@ -128,6 +144,7 @@ router.put(
   validateInputModel(Card),
   CardController.update
 );
+
 router.delete(
   `${cardsUrl}/:cardId`,
   passportJwt,

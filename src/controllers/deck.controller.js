@@ -42,7 +42,7 @@ const create = (req, res) => {
 };
 
 const getAll = (req, res) => {
-  const { field } = req.params;
+  const { field } = req.query;
 
   Deck.find({ userId: req.user.id })
     .sort(field ? field : '')
