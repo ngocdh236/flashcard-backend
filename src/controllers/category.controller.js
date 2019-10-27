@@ -24,7 +24,7 @@ const create = (req, res) => {
           objectTitle: ObjectTitles.CATEGORY,
           objectId: category.id,
           userId,
-          rights: [Rights.GET, Rights.CREATE_DECK, Rights.UPDATE, Rights.REMOVE]
+          rights: [Rights.GET, Rights.UPDATE, Rights.REMOVE]
         });
         return res.status(201).json(category);
       })
@@ -60,14 +60,20 @@ const update = (req, res) => {
 };
 
 const remove = async (req, res) => {
-  await Category.findByIdAndDelete(req.params.id)
-    .then(response =>
+  const { id } = req.params;
+
+  Category.findByIdAndDelete(id)
+    .then(async response => {
+      await Deck.updateMany({ categoryId: category.id }, { categoryId: null });
+      await ACL.deleteMany({
+        objectTitle: ObjectTitles.CATEGORY,
+        objectId: id
+      });
       res
         .status(200)
-        .json({ success: true, message: 'Category removed successfully' })
-    )
+        .json({ success: true, message: 'Category removed successfully' });
+    })
     .catch(err => res.status(400).json(err));
-  await Deck.updateMany({ categoryId: category.id }, { categoryId: null });
 };
 
 exports.CategoryController = { create, getAll, getById, update, remove };

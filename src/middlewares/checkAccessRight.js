@@ -3,8 +3,7 @@ const { isEmpty } = require('../utils/isEmpty');
 
 const ObjectTitles = Object.freeze({
   CATEGORY: 'Category',
-  DECK: 'Deck',
-  CARD: 'Card'
+  DECK: 'Deck'
 });
 
 const Rights = Object.freeze({
