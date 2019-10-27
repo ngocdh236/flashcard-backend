@@ -26,18 +26,20 @@ const checkAccessRight = (objectTitle, action) => (req, res, next) => {
     objectId = req.body.id || id;
   }
 
-  ACL.find({ objectTitle, objectId }).then(queries => {
-    if (isEmpty(queries))
-      return res.status(404).json({ error: `${objectTitle} not found` });
+  ACL.find({ objectTitle, objectId })
+    .then(queries => {
+      if (isEmpty(queries))
+        return res.status(404).json({ error: `${objectTitle} not found` });
 
-    queries.forEach(query => {
-      if (query.userId === userId && query.rights.includes(action)) {
-        next();
-      } else {
-        return res.status(403).json({ error: 'Access denied' });
-      }
-    });
-  });
+      queries.forEach(query => {
+        if (query.userId === userId && query.rights.includes(action)) {
+          next();
+        } else {
+          return res.status(403).json({ error: 'Access denied' });
+        }
+      });
+    })
+    .catch(err => res.status(400).json(err));
 };
 
 module.exports = { ObjectTitles, Rights, checkAccessRight };
