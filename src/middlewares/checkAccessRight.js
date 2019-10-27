@@ -14,7 +14,7 @@ const Rights = Object.freeze({
 
 const checkAccessRight = (objectTitle, action) => (req, res, next) => {
   const userId = req.user.id;
-  const objectId = req.body.id;
+  const objectId = req.body.id || req.params.id;
 
   ACL.find({ objectTitle, objectId })
     .then(queries => {
