@@ -8,7 +8,6 @@ const ObjectTitles = Object.freeze({
 });
 
 const Rights = Object.freeze({
-  CREATE_CARD: 'create_card',
   GET: 'get',
   UPDATE: 'update',
   REMOVE: 'remove'
@@ -16,15 +15,7 @@ const Rights = Object.freeze({
 
 const checkAccessRight = (objectTitle, action) => (req, res, next) => {
   const userId = req.user.id;
-  const { id, deckId } = req.params;
-
-  let objectId = {};
-
-  if (deckId) {
-    objectId = deckId;
-  } else {
-    objectId = req.body.id || id;
-  }
+  const objectId = req.body.id;
 
   ACL.find({ objectTitle, objectId })
     .then(queries => {
