@@ -1,7 +1,5 @@
 # Flashcard API 
 
-[Demo](https://documenter.getpostman.com/view/1649848/SVfRsSYY?version=latest)
-
 Endpoint: https://sheltered-reaches-53167.herokuapp.com/api
 
 ## Language
